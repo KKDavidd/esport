@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Vezérlőpult</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="wrapper wrapper-small glass-panel" id="loginBox">
+        <h1>Admin Belépés</h1>
+        <form id="adminForm">
+            <div class="form-group">
+                <label>Email cím</label>
+                <input type="email" id="aEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Jelszó</label>
+                <input type="password" id="aPass" required>
+            </div>
+            <button type="submit">Belépés</button>
+        </form>
+        <div id="loginStatus" class="status-msg error"></div>
+    </div>
+
+    <div class="wrapper glass-panel hidden" id="dashBox">
+        <div class="admin-header-layout">
+            <h1>Vezérlőpult</h1>
+            <button id="logoutBtn" class="btn-danger">Kijelentkezés</button>
+        </div>
+
+        <h2 style="border:none; margin-top:0; text-align:center;">Beérkezett Jelentkezések</h2>
+
+        <div id="dataList" class="mt-20"></div>
+    </div>
+
+    <div id="emailModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Kapitány Elérhetősége</h3>
+            <p id="modalEmailText"></p>
+            <button id="modalCloseBtn">Bezárás</button>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+
+</html>
