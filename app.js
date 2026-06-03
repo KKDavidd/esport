@@ -3,7 +3,7 @@ import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs
 import { isNameBlocked } from './blocklist.js';
 
 emailjs.init({
-    publicKey: "service_cn3re1k"
+    publicKey: "59rH9pxeNLa3CcsI_"
 });
 
 const regForm = document.getElementById('regForm');
