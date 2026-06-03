@@ -6,6 +6,31 @@ const regForm = document.getElementById('regForm');
 const submitBtn = document.getElementById('submitBtn');
 const statusMessage = document.getElementById('statusMessage');
 
+async function sendConfirmationEmail(email, teamName, game) {
+    const data = {
+        service_id: 'YOUR_EMAILJS_SERVICE_ID',
+        template_id: 'YOUR_EMAILJS_TEMPLATE_ID',
+        user_id: 'YOUR_EMAILJS_PUBLIC_KEY',
+        template_params: {
+            to_email: email,
+            team_name: teamName,
+            game_name: game
+        }
+    };
+
+    try {
+        await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 regForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     submitBtn.disabled = true;
@@ -45,14 +70,14 @@ regForm.addEventListener('submit', async (e) => {
         teamData.players.push(playerData);
     }
 
-    // Egyedi azonosító (ID) generálása: ékezetek, szóközök és speciális karakterek eltávolítása
     const safeGame = gameInput.toLowerCase().replace(/[^a-z0-9]/g, '');
     const safeTeam = teamNameInput.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, '');
     const customDocId = `${safeGame}_${safeTeam}`;
 
     try {
-        // addDoc helyett setDoc-ot használunk a saját ID-nkkal
         await setDoc(doc(db, "registrations", customDocId), teamData);
+        
+        await sendConfirmationEmail(teamData.players[0].email, teamNameInput, gameInput);
         
         document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
         document.querySelector('.form-step').classList.add('active');
@@ -61,7 +86,6 @@ regForm.addEventListener('submit', async (e) => {
         statusMessage.innerText = "Sikeresen leadtad a jelentkezést!";
         regForm.reset();
     } catch (err) {
-        // Ha a fájl már létezik, a Firestore "permission-denied" hibát dob, mivel felülírni csak admin tudja
         if (err.code === 'permission-denied') {
             statusMessage.className = "status-msg error";
             statusMessage.innerText = "Ezzel a névvel már regisztráltak ebben a játékban!";
