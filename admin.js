@@ -1,5 +1,5 @@
 import { db, auth } from './firebase-config.js';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { collection, getDocs, query, orderBy, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const loginBox = document.getElementById('loginBox');
@@ -10,6 +10,12 @@ const loginStatus = document.getElementById('loginStatus');
 const emailModal = document.getElementById('emailModal');
 const modalEmailText = document.getElementById('modalEmailText');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
+const profileBtn = document.getElementById('profileBtn');
+const profileModal = document.getElementById('profileModal');
+const closeProfileBtn = document.getElementById('closeProfileBtn');
+const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+const profileEmailText = document.getElementById('profileEmailText');
+const profileStatusMsg = document.getElementById('profileStatusMsg');
 
 adminForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -32,6 +38,38 @@ modalCloseBtn.addEventListener('click', () => {
     emailModal.classList.add('hidden');
 });
 
+profileBtn.addEventListener('click', () => {
+    if (auth.currentUser) {
+        profileEmailText.innerText = auth.currentUser.email;
+        profileStatusMsg.innerText = "";
+        profileStatusMsg.className = "status-msg";
+        profileModal.classList.remove('hidden');
+    }
+});
+
+closeProfileBtn.addEventListener('click', () => {
+    profileModal.classList.add('hidden');
+});
+
+resetPasswordBtn.addEventListener('click', async () => {
+    if (!auth.currentUser) return;
+    
+    resetPasswordBtn.disabled = true;
+    profileStatusMsg.innerText = "Feldolgozás...";
+    profileStatusMsg.className = "status-msg";
+    
+    try {
+        await sendPasswordResetEmail(auth, auth.currentUser.email);
+        profileStatusMsg.className = "status-msg success";
+        profileStatusMsg.innerText = "Email elküldve a postafiókodba!";
+    } catch (err) {
+        profileStatusMsg.className = "status-msg error";
+        profileStatusMsg.innerText = "Hiba történt az email küldésekor.";
+    } finally {
+        resetPasswordBtn.disabled = false;
+    }
+});
+
 onAuthStateChanged(auth, user => {
     if (user) {
         loginBox.classList.add('hidden');
@@ -42,6 +80,7 @@ onAuthStateChanged(auth, user => {
         dashBox.classList.add('hidden');
         dataList.innerHTML = '';
         adminForm.reset();
+        profileModal.classList.add('hidden');
     }
 });
 
