@@ -30,7 +30,7 @@
         <div class="admin-header-layout">
             <h1>Vezérlőpult</h1>
             <div class="header-buttons">
-                <button id="profileBtn" class="btn-secondary">Profil</button>
+                <button id="profileBtn" class="btn-profile">Profil</button>
                 <button id="logoutBtn" class="btn-danger">Kijelentkezés</button>
             </div>
         </div>
@@ -51,10 +51,11 @@
     <div id="profileModal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3>Admin Profil</h3>
-            <p>Bejelentkezve: <br><strong id="profileEmailText"></strong></p>
-            <button id="resetPasswordBtn" class="btn-secondary">Jelszó-visszaállító email küldése</button>
-            <div id="profileStatus" class="status-msg"></div>
-            <button id="profileCloseBtn" class="btn-danger" style="margin-top: 20px;">Bezárás</button>
+            <p>Bejelentkezve mint:</p>
+            <p id="profileEmailText" class="profile-email-highlight"></p>
+            <button id="resetPasswordBtn" class="btn-next">Jelszó visszaállító email küldése</button>
+            <div id="profileStatusMsg" class="status-msg"></div>
+            <button id="closeProfileBtn">Bezárás</button>
         </div>
     </div>
 
