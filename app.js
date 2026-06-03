@@ -66,7 +66,17 @@ regForm.addEventListener('submit', async (e) => {
                 to_email: captainEmail,
                 to_name: captainName,
                 team_name: teamNameInput,
-                game_name: gameInput
+                game_name: gameInput,
+                p1_name: document.getElementById('pName_1').value,
+                p1_class: document.getElementById('pClass_1').value,
+                p2_name: document.getElementById('pName_2').value,
+                p2_class: document.getElementById('pClass_2').value,
+                p3_name: document.getElementById('pName_3').value,
+                p3_class: document.getElementById('pClass_3').value,
+                p4_name: document.getElementById('pName_4').value,
+                p4_class: document.getElementById('pClass_4').value,
+                p5_name: document.getElementById('pName_5').value,
+                p5_class: document.getElementById('pClass_5').value
             };
             
             await emailjs.send('IDE_JON_A_SERVICE_ID', 'IDE_JON_A_TEMPLATE_ID', templateParams);
