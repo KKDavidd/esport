@@ -79,7 +79,7 @@ regForm.addEventListener('submit', async (e) => {
                 p5_class: document.getElementById('pClass_5').value
             };
             
-            await emailjs.send('IDE_JON_A_SERVICE_ID', 'IDE_JON_A_TEMPLATE_ID', templateParams);
+            await emailjs.send('service_cn3re1k', 'template_vchx6xn', templateParams);
         }
         
         document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
