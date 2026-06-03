@@ -69,9 +69,11 @@ h2 {
     margin: 0;
 }
 
-.admin-header-layout .btn-danger {
+.header-buttons {
     grid-column: 3;
     justify-self: end;
+    display: flex;
+    gap: 15px;
 }
 
 .form-group {
@@ -156,12 +158,33 @@ button:disabled {
     color: #fff;
 }
 
+.btn-profile {
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid #6366f1;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 0;
+    width: auto;
+}
+
+.btn-profile:hover {
+    background: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    transform: translateY(-2px);
+}
+
 .btn-danger {
     background: linear-gradient(to right, #ef4444, #b91c1c);
     width: auto;
     padding: 10px 20px;
     font-size: 1rem;
-    float: right;
     margin-top: 0;
 }
 
@@ -393,6 +416,11 @@ button:disabled {
     font-size: 1.2rem;
     margin: 20px 0;
     word-break: break-all;
+}
+
+.profile-email-highlight {
+    color: #c084fc;
+    font-weight: bold;
 }
 
 .modal-content button {
