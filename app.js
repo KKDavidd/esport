@@ -1,6 +1,10 @@
 import { db } from './firebase-config.js';
-import { doc, setDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { isNameBlocked } from './blocklist.js';
+
+emailjs.init({
+    publicKey: "IDE_JON_A_PUBLIC_KEY"
+});
 
 const regForm = document.getElementById('regForm');
 const submitBtn = document.getElementById('submitBtn');
@@ -58,22 +62,14 @@ regForm.addEventListener('submit', async (e) => {
         await setDoc(doc(db, "registrations", customDocId), teamData);
         
         if (captainEmail) {
-            await addDoc(collection(db, "mail"), {
-                to: captainEmail,
-                message: {
-                    subject: "Sikeres E-Sport Jelentkezés!",
-                    html: `
-                        <div style="font-family: sans-serif; color: #1e1b4b;">
-                            <h2>Szia ${captainName}!</h2>
-                            <p>Sikeresen rögzítettük a jelentkezéseteket a bajnokságra!</p>
-                            <p><strong>Csapatnév:</strong> ${teamNameInput}<br>
-                            <strong>Választott játék:</strong> ${gameInput}</p>
-                            <p>További információkkal hamarosan jelentkezünk.<br>
-                            Sok sikert kívánunk a versenyen!</p>
-                        </div>
-                    `
-                }
-            });
+            const templateParams = {
+                to_email: captainEmail,
+                to_name: captainName,
+                team_name: teamNameInput,
+                game_name: gameInput
+            };
+            
+            await emailjs.send('IDE_JON_A_SERVICE_ID', 'IDE_JON_A_TEMPLATE_ID', templateParams);
         }
         
         document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
